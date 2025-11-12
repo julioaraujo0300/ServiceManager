@@ -109,12 +109,31 @@ namespace ProjetoFinal
             this.Close();
         }
 
+        private String ValidarData()
+        {
+            if (DataPicker.SelectedDate == null)
+            {
+                return "Selecione uma data!";
+            }
+            else if (DataPicker.SelectedDate.Value > DateTime.Today)
+            {
+                return "Data inválida!";
+            }
+            return "OK";
+
+        }
+
         private async void btnGravar_Click(object sender, RoutedEventArgs e)
         {
             //garante que todos os camps foram preenchidos
-            if(txtCliente.Text == "" || txtFuncionarios.Text == "" || txtCusto.Text == "" || txtHoras.Text == "" || DataPicker.SelectedDate == null)
+            if (txtCliente.Text == "" || txtFuncionarios.Text == "" || txtCusto.Text == "" || txtHoras.Text == "" || DataPicker.SelectedDate == null)
             {
                 MessageBox.Show("Preencha todos os campos!");
+                return;
+            }
+            else if (ValidarData() != "OK")
+            {
+                MessageBox.Show(ValidarData());
                 return;
             }
             else
@@ -259,7 +278,7 @@ namespace ProjetoFinal
                     }
                 }
                 //caso não haja registos que correspondam aos filtros selecionados informa o utilizador e limpa os filtros
-                if(_listaFiltrada.Count == 0)
+                if (_listaFiltrada.Count == 0)
                 {
                     MessageBox.Show("Não há registos que correspondam aos filtros selecionados!");
                     LimparFiltros();
@@ -273,7 +292,7 @@ namespace ProjetoFinal
             }
         }
 
-        
+
         private void btnLimparFiltros_Click(object sender, RoutedEventArgs e)
         {
             LimparFiltros();
@@ -287,6 +306,5 @@ namespace ProjetoFinal
             btnLimparFiltros.Visibility = Visibility.Hidden;
             InicializarForm();
         }
-
     }
 }
